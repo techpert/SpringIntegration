@@ -1,13 +1,13 @@
-package com.infogain.SpringIntegrationDemo1;
+package com.infogain.SpringIntegration;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringIntegrationDemo1Application {
+public class SpringIntegrationApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringIntegrationDemo1Application.class, args);
+		SpringApplication.run(SpringIntegrationApplication.class, args);
 	}
 
 }
