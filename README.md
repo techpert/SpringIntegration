@@ -1,2 +1,2 @@
 # SpringIntegration
-Spring Integration demo 
+Spring Integration demo for infogain
