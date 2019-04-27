@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.0.M2</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.infogain</groupId>
+	<artifactId>SpringIntegration</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>SpringIntegration</name>
+	<description>Demo project for Spring Boot</description>
+	<developers>
+		<developer>
+			<name>Rudhra Koul</name>
+			<roles>
+				<role>Consultant Development </role>
+			</roles>
+			<url>https://github.com/techpert</url>
+			<email>rudhra.koul@infogain.com</email>
+			<organization>Infogain India Pvt Ltd</organization>
+			<organizationUrl>http://infogain.com/</organizationUrl>
+		</developer>
+	</developers>
+
+	<organization>
+		<name>Infogain India Pvt Ltd</name>
+		<url>http://infogain.com/</url>
+	</organization>
+
+	<issueManagement>
+		<url>https://github.com/rudhrainfogain/SpringIntegration/issues</url>
+		<system>github</system>
+	</issueManagement>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<log4j.version>2.11.2</log4j.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<swagger.version>2.9.2</swagger.version>
+		<asertj-version>3.12.0</asertj-version>
+		<mockito-version>2.24.5</mockito-version>
+		<junit-jupiter.version>5.4.0</junit-jupiter.version>
+		<Maven-surefire-plugin-version>3.0.0-M3</Maven-surefire-plugin-version>
+		<maven-project-info-reports-plugin-version>3.0.0</maven-project-info-reports-plugin-version>
+		<maven-javadoc-plugin-version>3.0.1</maven-javadoc-plugin-version>
+		<maven-site-plugin-version>3.7.1</maven-site-plugin-version>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+		<additionalparam>-Xdoclint:none</additionalparam>
+		<!-- This format is used by SonarQube. If you need another format see "buildnumber-maven-plugin" -->
+		<maven.build.timestamp.format>MM.yyyy</maven.build.timestamp.format>
+		<yearMonth>${maven.build.timestamp}</yearMonth>
+		<!-- ************************ -->
+		<!-- Sonar/Reporting settings -->
+		<!-- ************************ -->
+		<!-- Sonar/Jacoco integration. Note that these properties need to be defined 
+			outside the "coverage" profile because we want to be to able to execute mvn 
+			sonar:sonar without passing a profile -->
+		<!-- Tells Sonar to use jacoco for coverage results -->
+		<sonar.projectKey>com.infogain:SpringIntegration</sonar.projectKey>
+		<sonar.projectName>SpringIntegration</sonar.projectName>
+		<sonar.projectVersion>${yearMonth}</sonar.projectVersion>
+		<sonar.language>java</sonar.language>
+		<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.host.url>http://localhost:8585/sonar/</sonar.host.url>
+		<!-- Jacoco version to use -->
+		<jacoco.version>0.8.3</jacoco.version>
+		<!-- The Sonar Jacoco Listener for JUnit to extract coverage details per 
+			test -->
+		<sonar-jacoco-listeners.version>5.11.0.17289</sonar-jacoco-listeners.version>
+		<!-- Don't let Sonar execute tests. We will ask it to Maven 'sonar.dynamicAnalysis' 
+			is deprecated since version 4.3 and should no longer be used. -->
+		<!-- <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis> -->
+		<!-- The system property jacoco.outputDir needs to be override on the command 
+			line with an absolute path if you want to merge results from all modules. 
+			Example in a Jenkisn build where ${WORKSPACE} is defined and your project 
+			in the root directory of the workspace : mvn clean install -Prun-its,coverage 
+			-Djacoco.outputDir=${WORKSPACE}/target Note that unfortunately using the 
+			following does not work because of http://jira.codehaus.org/browse/SONAR-3427: 
+			<jacoco.outputDir>${session.executionRootDirectory}/target/</jacoco.outputDir> -->
+		<jacoco.outputDir>${project.build.directory}/jacoco-ut</jacoco.outputDir>
+		<!-- Jacoco output file for UTs -->
+		<jacoco.out.ut.file>jacoco.exec</jacoco.out.ut.file>
+		<!-- Tells Sonar where the Jacoco coverage result file is located for Unit 
+			Tests -->
+		<sonar.jacoco.reportPath>${jacoco.outputDir}/${jacoco.out.ut.file}</sonar.jacoco.reportPath>
+		<!-- Jacoco output file for ITs -->
+		<jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
+		<!-- Tells Sonar where the Jacoco coverage result file is located for Integration 
+			Tests -->
+		<sonar.jacoco.itReportPath>${jacoco.outputDir}/${jacoco.out.it.file}</sonar.jacoco.itReportPath>
+		<!-- <sonar.junit.reportsPath>${project.build.directory}/surefire-reports/</sonar.junit.reportsPath> -->
+		<!-- <sonar.tests>src/test/java</sonar.tests> -->
+		<!-- === END of Sonar/Reporting settings === -->
+		<sonar.host.url>http://172.18.72.57:8585/sonar</sonar.host.url>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-integration</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-jcl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-taglib</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-iostreams</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit-jupiter.version}</version><!--$NO-MVN-MAN-VER$ -->
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit-jupiter.version}</version><!--$NO-MVN-MAN-VER$ -->
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>${asertj-version}</version><!--$NO-MVN-MAN-VER$ -->
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockito-version}</version><!--$NO-MVN-MAN-VER$ -->
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>${mockito-version}</version><!--$NO-MVN-MAN-VER$ -->
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<dependencyManagement>
+
+		<dependencies>
+
+
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-bom</artifactId>
+				<version>${log4j.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+
+		</dependencies>
+
+	</dependencyManagement>
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${Maven-surefire-plugin-version}</version><!--$NO-MVN-MAN-VER$ -->
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>${Maven-surefire-plugin-version}</version><!--$NO-MVN-MAN-VER$ -->
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>${maven-site-plugin-version}</version><!--$NO-MVN-MAN-VER$ -->
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<!-- Sets the path to the file which contains the execution data. -->
+
+							<dataFile>target/jacoco.exec</dataFile>
+							<!-- Sets the output directory for the code coverage report. -->
+							<outputDirectory>target/jacoco-ut</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.6.0.1398</version>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+	<reporting>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>${Maven-surefire-plugin-version}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${maven-project-info-reports-plugin-version}</version>
+				<configuration>
+					<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven-javadoc-plugin-version}</version>
+				<configuration>
+					<!--Default configuration for all reports -->
+					<doclint>none</doclint>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<id>default</id>
+						<configuration>
+							<!--Specific configuration for the given reports -->
+						</configuration>
+						<reports>
+							<report>javadoc</report>
+							<report>test-javadoc</report>
+						</reports>
+					</reportSet>
+					<reportSet>
+						<id>aggregate</id>
+						<configuration>
+							<!--Specific configuration for the given reports -->
+						</configuration>
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+		</plugins>
+
+	</reporting>
+	<repositories>
+		<repository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+</project>
